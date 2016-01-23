@@ -90,10 +90,6 @@
     angular.module('myApp.events').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, event) {
         $scope.event = event;
 
-        $scope.ok = function () {
-            $uibModalInstance.close($scope.selected.item);
-        };
-
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
