@@ -20,7 +20,8 @@
         vm.sortType = 'date'; // set the default sort type
         vm.sortReverse = false;  // set the default sort order
         vm.searchFish = '';     // set the default search/filter term
-
+        vm.totalItems = 0;
+        vm.bigTotalItems = 0;
         vm.currentPage = 1;
         vm.itemsPerPage = 50;
         vm.setPage = function (pageNo) {
@@ -30,11 +31,8 @@
 
         vm.sort = function (sortType) {
             vm.sortType = sortType;
-            console.log(vm.sortReverse);
             vm.sortReverse = !vm.sortReverse;
-            console.log(vm.sortType);
-            console.log(vm.sortReverse);
-        }
+        };
         $scope.$watch(
             function watchFoo(scope) {
                 // Return the "result" of the watch expression.
@@ -56,6 +54,7 @@
             $http.get('skalender.json')
                 .then(function (res) {
                     vm.events = res.data;
+                    vm.bigTotalItems = vm.events.length;
                     vm.events.forEach(function (event) {
                         event.date = new Date(event.date.substring(0, 10));
                         event.dateString = event.date.toLocaleFormat('%d.%m.%Y')
@@ -89,7 +88,6 @@
     }
 
     angular.module('myApp.events').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, event) {
-        console.log(event);
         $scope.event = event;
 
         $scope.ok = function () {
