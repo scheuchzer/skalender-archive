@@ -53,7 +53,7 @@
             <td class="hidden-xs hidden-sm">{{ event.uid }}</td>
             <td class="hidden-xs hidden-sm">{{ event.date | date:'dd.MM.yyyy' }}</td>
             <td class="hidden-md hidden-lg hidden-xl">{{ event.date | date:'dd.MM.yy' }}</td>
-            <td><span ng-show="event.name">{{ event.name }}</br></span>{{ event.venue }}</td>
+            <td><span ng-show="event.name">{{ event.name }}</br></span>{{ event.venue }}, <br/>{{ event.zip }} {{ event.city }}</td>
             <td>
                 <ul>
                     <li ng-repeat="band in event.bands">
