@@ -1,0 +1,93 @@
+<div class="container">
+
+    <form>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                <input type="text" class="form-control" placeholder="Suche... Lokal, Ort, Band, Datum" ng-model="EventsCtrl.searchFish">
+            </div>
+        </div>
+    </form>
+
+
+    <uib-pagination
+            total-items="EventsCtrl.totalItems"
+            items-per-page="EventsCtrl.itemsPerPage"
+            ng-model="EventsCtrl.currentPage"
+            max-size="EventsCtrl.maxSize"
+            class="pagination-sm"
+            boundary-link-numbers="true"
+            force-ellipses="true"
+            rotate="true"></uib-pagination>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <td>
+                Id
+            </td>
+            <td>
+                Datum
+            </td>
+            <td>
+                Name/Lokal
+            </td>
+            <td>
+                Bands
+            </td>
+            <td>
+                Fotos
+            </td>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr ng-repeat="event in EventsCtrl.filtered.slice(((EventsCtrl.currentPage-1)*EventsCtrl.itemsPerPage), ((EventsCtrl.currentPage)*EventsCtrl.itemsPerPage)) | orderBy:EventsCtrl.sortType:EventsCtrl.sortReverse">
+            <td>{{ event.uid }}</td>
+            <td>{{ event.date | date:'dd.MM.yyyy' }}</td>
+            <td><span ng-show="event.name">{{ event.name }}</br></span>{{ event.venue }}</td>
+            <td>
+                <ul>
+                    <li ng-repeat="band in event.bands">
+                        {{band.name}}
+                    </li>
+                </ul>
+            </td>
+            <td>
+                <button type="button" class="btn btn-default" ng-show="event.pics"
+                        ng-click="EventsCtrl.open(event, 'lg')">Fotos
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <uib-pagination
+            total-items="EventsCtrl.totalItems"
+            items-per-page="EventsCtrl.itemsPerPage"
+            ng-model="EventsCtrl.currentPage"
+            max-size="EventsCtrl.maxSize"
+            class="pagination-sm"
+            boundary-link-numbers="true"
+            force-ellipses="true"
+            rotate="true"></uib-pagination>
+
+
+</div>
+
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">I'm a modal!</h3>
+    </div>
+    <div class="modal-body">
+        <uib-carousel interval="myInterval" no-wrap="noWrapSlides">
+            <uib-slide ng-repeat="slide in event.pics" active="slide.active" index="slide.id">
+                <img src="https://s3.amazonaws.com/celli-skalender-pics/{{event.uid}}/{{slide.name}}"
+                     style="margin:auto;"/>
+            </uib-slide>
+        </uib-carousel>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
